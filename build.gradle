@@ -1,0 +1,32 @@
+group 'com.directv.generatettsscript'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'GenerateTTSScript'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.0.0'
+    compile('org.jxls:jxls-poi:1.0.9')
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
